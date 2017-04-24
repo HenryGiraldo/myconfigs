@@ -1,0 +1,237 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+ZSH=/usr/share/oh-my-zsh/
+
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="mikeh"
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git)
+
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+ZSH_CACHE_DIR=$HOME/.oh-my-zsh-cache
+if [[ ! -d $ZSH_CACHE_DIR ]]; then
+  mkdir $ZSH_CACHE_DIR
+fi
+
+source $ZSH/oh-my-zsh.sh
+
+if [[ -n "$TMUX" ]]; then
+	bindkey "\e[1~" beginning-of-line
+	bindkey "\e[4~" end-of-line
+fi
+
+alias gitdraw="git log --graph --oneline --decorate"
+
+function sfind() { grep -rn "$1" . }
+
+#GIT alias
+alias gs='git status '
+alias ga='git add '
+alias gb='git branch '
+alias gc='git commit'
+alias gd='git diff'
+alias gk='git checkout'
+
+#cd alias
+alias ..='cd ..'
+alias ...='cd ../../'
+alias ....='cd ../../../'
+alias .....='cd ../../../../'
+
+## Colorize the ls output ##
+alias ls='ls --color=auto'
+
+## Use a long listing format ##
+alias ll='ls -la'
+
+## Show hidden files ##
+alias l.='ls -d .* --color=auto'
+
+# distro specific  - Debian / Ubuntu and friends #
+# install with apt-get
+alias apt-get="sudo apt-get"
+alias updatey="sudo apt-get --yes"
+
+# update on one command
+alias update='sudo apt-get --yes update && sudo apt-get upgrade --yes'
+
+## pass options to free ##
+alias meminfo='free -m -l -t'
+
+## get top process eating memory
+alias psmem='ps auxf | sort -nr -k 4'
+alias psmem10='ps auxf | sort -nr -k 4 | head -10'
+
+## get top process eating cpu ##
+alias pscpu='ps auxf | sort -nr -k 3'
+alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
+
+## Get server cpu info ##
+alias cpuinfo='lscpu'
+
+## older system use /proc/cpuinfo ##
+##alias cpuinfo='less /proc/cpuinfo' ##
+
+## get GPU ram on desktop / laptop##
+alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
+
+#grep color
+alias grep='grep --color'
+
+## pass options to free ##
+alias meminfo='free -m -l -t'
+
+## get top process eating memory
+alias psmem='ps auxf | sort -nr -k 4'
+alias psmem10='ps auxf | sort -nr -k 4 | head -10'
+
+## get top process eating cpu ##
+alias pscpu='ps auxf | sort -nr -k 3'
+alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
+
+## Get server cpu info ##
+alias cpuinfo='lscpu'
+
+## older system use /proc/cpuinfo ##
+##alias cpuinfo='less /proc/cpuinfo' ##
+
+## get GPU ram on desktop / laptop##
+alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
+#eval `dircolors $HOME/.dircolors`
+
+function cfind() { find -name '*.[ch]' | xargs grep -i -n $1 | awk '{split($0,a,":");printf "\033[1m%d\033[0m:\033[36m%s\033[0m:\033[33m%s\033[0m:%s\n", NR, a[1],a[2],a[3]}'| grep --colour -i $1; }
+
+function cvi ()
+{
+  if [ $# -lt 2 ]; then
+    vi -p +/$1/ `find -name '*.[ch]' | xargs grep -i -n -l "$1"`;
+  else
+    local LINE=`find -name '*.[ch]' | xargs grep -i -n "$1" | sed -n "$2 p"`
+    vi +/$1/ +`echo "$LINE" | cut -d: -f2` `echo "$LINE" | cut -d: -f1`;
+  fi
+}
+
+#### AOIFES #####
+# -  DOCKER  -  #
+function dumount()
+{
+  docker stop $1; docker rm $1
+}
+
+function dmount()
+{
+  docker run --privileged -v "$(pwd):/root/external" -v lab_data:/root/data -t -dP --net="host" --cap-add NET_ADMIN --name lab docker.aoifes.com/$1
+}
+
+function dopen_bash()
+{
+  docker exec -ti $1 script -q -c bash
+}
+
+function kill_hostapd()
+{
+  sudo kill -9 `pidof hostapd`
+}
+
+function run_hostapd()
+{
+  sudo rfkill unblock all
+  (sleep 10
+  echo "- - - - RADIO 5 GHZ - - - -"
+  sudo /home/egiraldo/workspace/hostapd/hostapd/hostapd -B /etc/hostapd/5hostapd.conf 2>/dev/null
+  echo "- - - - RADIO 2 GHZ - - - -"
+  sudo /home/egiraldo/workspace/hostapd/hostapd/hostapd -B /etc/hostapd/2hostapd.conf 2>/dev/null
+  )&
+}
+
+alias xmake='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/ecowrt:/root/toolchain" -it docker.aoifes.com/cross_compile'
+alias xgdb='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/ecowrt:/root/toolchain" -it docker.aoifes.com/cross_gdb'
+alias dmake='docker run --rm -v "$(pwd):/root/src" -t docker.aoifes.com/compile_cht'
+alias xbackend='docker run -p 8080:8080 -p 8443:8443 -d docker.aoifes.com/manager_backend'
+alias build_ecowifi='docker run --rm -ti -v "$(pwd):/root/src" docker.aoifes.com/compile_ecowifi $@'
+alias dockerupdate="docker images | grep -v '<none>\|REPOSITORY' | awk '{print \$1}' | while read l; do docker pull \$l;done"
+alias xmanager="docker run --name manager --rm -it --cap-add NET_ADMIN  -p 8000:8000 -p 8443:8443 -p 8080:8080 -p 25007:25007 docker.aoifes.com/manager_backend_frontend"
+alias chmake='docker run --rm -ti -v "$(pwd):/root/src" docker.aoifes.com/chmake $@'
+
+alias dlab='dumount lab;dmount lab;dopen_bash lab'
+alias bashlab='dopen_bash lab'
+alias joinlab="sshpass -p developer ssh developer@192.168.100.12"
+
+#sudo iptables -t nat -A OUTPUT --destination 192.168.100.4 -p tcp --dport 2223 -j DNAT --to-destination 192.168.100.4:22
+#################
+export PATH="/usr/lib/ccache:$PATH"
