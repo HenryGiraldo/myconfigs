@@ -89,7 +89,7 @@ if [[ ! -d $ZSH_CACHE_DIR ]]; then
 fi
 
 #IMPORTS!
-source /home/egiraldo/workspace/myconfigs/sshh_script
+source $HOME/workspace/myconfigs/sshh_script
 source $ZSH/oh-my-zsh.sh
 
 if [[ -n "$TMUX" ]]; then
