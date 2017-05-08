@@ -4,7 +4,7 @@
 # (c) 2007,2008, Andy Whitcroft <apw@uk.ibm.com> (new conditions, test suite)
 # (c) 2008-2010 Andy Whitcroft <apw@canonical.com>
 # Licensed under the terms of the GNU GPL License version 2
-
+#basic usage ./checkpatch.pl --terse --file --no-tree <file name>
 use strict;
 use POSIX;
 use File::Basename;
