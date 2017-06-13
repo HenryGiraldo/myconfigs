@@ -103,31 +103,11 @@ function cfind() { find -name '*.[ch]' | xargs grep -i -n $1 | awk '{split($0,a,
 function cvi ()
 {
   if [ $# -lt 2 ]; then
-    vi -p +/$1/ `find -name '*.[ch]' | xargs grep -i -n -l "$1"`;
+    vim -p +/$1/ `find -name '*.[ch]' | xargs grep -i -n -l "$1"`;
   else
     local LINE=`find -name '*.[ch]' | xargs grep -i -n "$1" | sed -n "$2 p"`
-    vi +/$1/ +`echo "$LINE" | cut -d: -f2` `echo "$LINE" | cut -d: -f1`;
+    vim +/$1/ +`echo "$LINE" | cut -d: -f2` `echo "$LINE" | cut -d: -f1`;
   fi
-}
-
-function dumount()
-{
-  docker stop $1; docker rm $1
-}
-
-function dmount()
-{
-  docker run --privileged -v "$(pwd):/root/external" -v lab_data:/root/data -t -dP --net="host" --cap-add NET_ADMIN --name lab docker.aoifes.com/$1
-}
-
-function dopen_bash()
-{
-  docker exec -ti $1 script -q -c bash
-}
-
-function kill_hostapd()
-{
-  sudo kill -9 `pidof hostapd`
 }
 
 function get_desktop()
@@ -135,15 +115,17 @@ function get_desktop()
   echo $DESKTOP_SESSION
 }
 
-function run_hostapd()
+#$1 message title
+#$2 message
+function infome()
 {
-  sudo rfkill unblock all
-  (sleep 10
-  echo "- - - - RADIO 5 GHZ - - - -"
-  sudo /home/egiraldo/workspace/hostapd/hostapd/hostapd -B /etc/hostapd/5hostapd.conf 2>/dev/null
-  echo "- - - - RADIO 2 GHZ - - - -"
-  sudo /home/egiraldo/workspace/hostapd/hostapd/hostapd -B /etc/hostapd/2hostapd.conf 2>/dev/null
-  )&
+  TITLE=$1
+  MSG=$2
+  zenity \
+    --info \
+    --text="<span size=\"xx-large\">Time is $(date +%Hh%M).</span>\n\n $MSG." \
+    --title="$TITLE" \
+    --ok-label="Sip"
 }
 
 #Remove all stopped DOCKER containers.
@@ -243,22 +225,44 @@ alias cpuinfo='lscpu'
 ## get GPU ram on desktop / laptop##
 alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
 
+## DOCKER
+# Docker functions
+function dumount()
+{
+  docker stop $1; docker rm $1
+}
+
+function dmount()
+{
+  docker run --privileged -v "$(pwd):/root/external" -v "$1"_data:/root/data -t -dP --net="host" --cap-add NET_ADMIN --name $1 docker.aoifes.com/$1
+}
+
+function dopen_bash()
+{
+  docker exec -ti $1 script -q -c bash
+}
+
 ## Docker alias
 alias xmake='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/ecowrt:/root/toolchain" -it docker.aoifes.com/cross_compile'
+alias xmakelede='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/lede_test:/root/toolchain" -it docker.aoifes.com/cross_compile'
 alias xgdb='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/ecowrt:/root/toolchain" -it docker.aoifes.com/cross_gdb'
 #alias dmake='docker run -u 1000:1000 --rm --net="host" --cap-add NET_ADMIN -v "$(pwd):/root/src" -t docker.aoifes.com/compile_cht'
 alias dmake='docker run --rm --net="host" --cap-add NET_ADMIN -v "$(pwd):/root/src" -t docker.aoifes.com/compile_cht'
 alias xbackend='docker run -p 8080:8080 -p 8443:8443 -d docker.aoifes.com/manager_backend'
-alias build_ecowifi='docker run --rm -ti -v "$(pwd):/root/src" docker.aoifes.com/compile_ecowifi $@'
+#alias build_ecowifi='docker run --rm -ti -v "$(pwd):/root/src" docker.aoifes.com/compile_ecowifi $@'
+alias build_ecowifi='docker run -u 1000:1000 --rm -ti -v "$(pwd):/root/src" docker.aoifes.com/compile_ecowifi $@'
 alias xmanager="docker run --name manager --rm -it --cap-add NET_ADMIN  -p 8000:8000 -p 8443:8443 -p 8080:8080 -p 25007:25007 docker.aoifes.com/manager_backend_frontend"
-alias chmake='docker run --rm -ti -v "$(pwd):/root/src" docker.aoifes.com/chmake $@'
+#alias chmake='docker run --rm -ti -v "$(pwd):/root/src" docker.aoifes.com/chmake $@'
+alias chmake='docker run -u1000:1000 --rm -ti -v "$(pwd):/root/src" docker.aoifes.com/chmake $@'
 alias dlab='dumount lab;dmount lab;dopen_bash lab'
 
 alias dockerupdate="docker images | grep -v '<none>\|REPOSITORY' | awk '{print \$1}' | while read l; do docker pull \$l;done"
-alias dockerclean="rm_stop_docker_containers; rm_untag_docker_images"
-
+alias dockerclean="{rm_stop_docker_containers > /dev/null 2>&1 && rm_untag_docker_images} || echo 'Nothing to remove'"
 #Other
 alias bashlab='dopen_bash lab'
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
+
 
 # Export CCACHE
 export PATH="/usr/lib/ccache:$PATH"

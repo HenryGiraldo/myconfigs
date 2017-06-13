@@ -339,21 +339,12 @@ imap <S-F6>    <ESC>:call SetExecutable()<CR>
 map  <C-F6>     :set paste!<CR>i
 imap <C-F6>     <ESC>:set paste!<CR>i
 
-" Syntastic error window
-"map  <F7>       :call ToggleErrors()<CR>
-"imap <F7>       <ESC>:call ToggleErrors()<CR>
-map  <F7>       :Wandbox --compiler=gcc-head --options=warnings<CR>
-imap <F7>       <ESC>::Wandbox --compiler=gcc-head --options=warnings<CR>
-
-" Doxygen
-"map  <S-F7>      :Dox<CR>
-"imap <S-F7>      <ESC>:Dox<CR>
-map  <S-F7>      :Wandbox --compiler=clang-head --options=warnings<CR>
-imap <S-F7>      <ESC>::Wandbox --compiler=clang-head --options=warnings<CR>
-
 " toggle numbering
-"map  <F8>        :set number! relativenumber!<CR>
-"imap <F8>        :set number! relativenumber!<CR>
+map  <F7>        :set number! relativenumber!<CR>
+imap <F7>        <ESC>:set number! relativenumber!<CR>
+" Doxygen
+map  <S-F7>      :Dox<CR>
+imap <S-F7>      <ESC>:Dox<CR>
 
 " ctags
 map  <F8>      :!/usr/bin/ctags -R --c++-kinds=+p --fields=+iaS --extra=+q --links=no .<CR>
