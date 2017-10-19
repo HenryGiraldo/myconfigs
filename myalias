@@ -128,6 +128,9 @@ alias cpuinfo='lscpu'
 ## get GPU ram on desktop / laptop##
 alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
 
+## Cscope
+alias cscope_update='cscope -q -R -b'
+
 ## DOCKER
 # Docker functions
 function dumount()
@@ -149,6 +152,7 @@ function dopen_bash()
 alias xmake='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/ecowrt:/root/toolchain" -it docker.aoifes.com/cross_compile'
 alias xmakelede='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/lede_with_cht:/root/toolchain" -it docker.aoifes.com/cross_compile'
 alias xgdb='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/ecowrt:/root/toolchain" -it docker.aoifes.com/cross_gdb'
+alias xgdblede='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/lede_with_cht:/root/toolchain" -it docker.aoifes.com/cross_gdb'
 #alias dmake='docker run -u 1000:1000 --rm --net="host" --cap-add NET_ADMIN -v "$(pwd):/root/src" -t docker.aoifes.com/compile_cht'
 alias dmake='docker run --rm --net="host" --cap-add NET_ADMIN -v "$(pwd):/root/src" -t docker.aoifes.com/compile_cht'
 alias xbackend='docker run -p 8080:8080 -p 8443:8443 -d docker.aoifes.com/manager_backend'
@@ -158,11 +162,9 @@ alias xmanager="docker run --name manager --rm -it --cap-add NET_ADMIN  -p 8000:
 #alias chmake='docker run --rm -ti -v "$(pwd):/root/src" docker.aoifes.com/chmake $@'
 alias chmake='docker run -u1000:1000 --rm -ti -v "$(pwd):/root/src" docker.aoifes.com/chmake $@'
 alias dlab='dumount lab;dmount lab;dopen_bash lab'
-
 alias dockerupdate="docker images | grep -v '<none>\|REPOSITORY' | awk '{print \$1}' | while read l; do docker pull \$l;done"
 #FIXME: exec rm_untag_docker_images even when rm_stop_docker_containers fails
 alias dockerclean="{rm_stop_docker_containers > /dev/null 2>&1 && rm_untag_docker_images} || echo 'Nothing to remove'"
-#Other
 alias bashlab='dopen_bash lab'
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
