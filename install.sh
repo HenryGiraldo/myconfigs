@@ -21,7 +21,7 @@ fmv() {
   #  cp $1 $2
 }
 
-DEPENDENCIES="tmux vim zsh ctags"
+DEPENDENCIES="tmux vim zsh ctags cmake cscope xflux"
 check_dependencies $DEPENDENCIES
 
 #change your default shell
