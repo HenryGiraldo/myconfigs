@@ -59,6 +59,8 @@ function multi_replace()
 #SUDO alias
 alias sudo='sudo '
 
+alias mini='sudo minicom -D /dev/ttyUSB0'
+
 #GIT alias
 alias gs='git status '
 alias ga='git add '
