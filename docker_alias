@@ -1,0 +1,47 @@
+## DOCKER
+
+#Remove all stopped DOCKER containers.
+function rm_stop_docker_containers()
+{
+  docker rm $(docker ps -a -q)
+}
+
+#Remove all untagged DOCKER images.
+function rm_untag_docker_images()
+{
+  docker rmi $(docker images | grep "<none>" | awk '{print $3}')
+}
+
+function dumount()
+{
+  docker stop $1; docker rm $1
+}
+
+function dmount()
+{
+  docker run --privileged -v "$(pwd):/root/external" -v "$1"_data:/root/data -t -dP --net="host" --cap-add NET_ADMIN --name $1 docker.aoifes.com/$1
+}
+
+function dopen_bash()
+{
+  docker exec -ti $1 script -q -c bash
+}
+
+## Docker alias
+alias xmake='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/ecowrt:/root/toolchain" -it docker.aoifes.com/cross_compile'
+alias xmakelede='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/lede_with_cht:/root/toolchain" -it docker.aoifes.com/cross_compile'
+alias xgdb='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/ecowrt:/root/toolchain" -it docker.aoifes.com/cross_gdb'
+alias xgdblede='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/lede_with_cht:/root/toolchain" -it docker.aoifes.com/cross_gdb'
+#alias dmake='docker run -u 1000:1000 --rm --net="host" --cap-add NET_ADMIN -v "$(pwd):/root/src" -t docker.aoifes.com/compile_cht'
+alias dmake='docker run --rm --net="host" --cap-add NET_ADMIN -v "$(pwd):/root/src" -t docker.aoifes.com/compile_cht'
+alias xbackend='docker run -p 8080:8080 -p 8443:8443 -d docker.aoifes.com/manager_backend'
+#alias build_ecowifi='docker run --rm -ti -v "$(pwd):/root/src" docker.aoifes.com/compile_ecowifi $@'
+alias build_ecowifi='docker run -u 1000:1000 --rm -ti -v "$(pwd):/root/src" docker.aoifes.com/compile_ecowifi $@'
+alias xmanager="docker run --name manager --rm -it --cap-add NET_ADMIN  -p 8000:8000 -p 8443:8443 -p 8080:8080 -p 25007:25007 docker.aoifes.com/manager_backend_frontend"
+#alias chmake='docker run --rm -ti -v "$(pwd):/root/src" docker.aoifes.com/chmake $@'
+alias chmake='docker run -u1000:1000 --rm -ti -v "$(pwd):/root/src" docker.aoifes.com/chmake $@'
+alias dlab='dumount lab;dmount lab;dopen_bash lab'
+alias dockerupdate="docker images | grep -v '<none>\|REPOSITORY' | awk '{print \$1}' | while read l; do docker pull \$l;done"
+#FIXME: exec rm_untag_docker_images even when rm_stop_docker_containers fails
+alias dockerclean="{rm_stop_docker_containers > /dev/null 2>&1 && rm_untag_docker_images} || echo 'Nothing to remove'"
+alias bashlab='dopen_bash lab'

@@ -22,7 +22,7 @@ fmv() {
 }
 
 #libtinfo5 is needed for YCM
-DEPENDENCIES="tmux vim zsh ctags cmake cscope libtinfo5 xflux"
+DEPENDENCIES="tmux vim zsh ctags cmake cscope libtinfo5 xflux parcellite"
 check_dependencies $DEPENDENCIES
 
 #change your default shell
