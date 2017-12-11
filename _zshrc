@@ -91,6 +91,7 @@ fi
 #IMPORTS!
 source $HOME/workspace/myconfigs/sshh_script
 source $HOME/workspace/myconfigs/progress_bar.sh
+source $HOME/workspace/myconfigs/xcol.sh
 source $HOME/workspace/myconfigs/myalias
 source $HOME/workspace/myconfigs/docker_alias
 source $ZSH/oh-my-zsh.sh
