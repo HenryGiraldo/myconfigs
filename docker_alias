@@ -9,7 +9,12 @@ function rm_stop_docker_containers()
 #Remove all untagged DOCKER images.
 function rm_untag_docker_images()
 {
-  docker rmi $(docker images | grep "<none>" | awk '{print $3}')
+  DOCKER_IDS=$(docker images | grep "<none>" | awk '{print $3}')
+  if [ ! -z $DOCKER_IDS ]; then
+    for did in $DOCKER_IDS; do
+      docker rmi $did
+    done
+  fi
 }
 
 function dumount()
