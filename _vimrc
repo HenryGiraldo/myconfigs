@@ -354,9 +354,23 @@ imap <F8>      <ESC>:!/usr/bin/ctags -R --c++-kinds=+p --fields=+iaS --extra=+q 
 map  <S-F8>    :TlistUpdate<CR>
 imap <S-F8>    <ESC>:TlistUpdate<CR>
 
-" Spelling
-map  <S-F9>      :set spell!<CR>
-imap <S-F9>      <ESC>:set spell!<CR>
+"" Spelling
+"map  <S-F9>      :set spell!<CR>
+"imap <S-F9>      <ESC>:set spell!<CR>
+
+" allow toggling between local and default mode
+function TabToggle()
+  if &expandtab
+    set shiftwidth=8
+    set softtabstop=0
+    set noexpandtab
+  else
+    set shiftwidth=2
+    set softtabstop=2
+    set expandtab
+  endif
+endfunction
+nmap <F9> :call TabToggle()<CR>
 
 " Next error to F10
 map  <F10>     :cn<CR>
