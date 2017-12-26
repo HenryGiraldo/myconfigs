@@ -27,7 +27,7 @@ Plugin 'altercation/vim-colors-solarized'
 
 " status line, CtrlP and menus
 "Plugin 'bling/vim-bufferline'
-Plugin 'timofurrer/vim-bufferline'
+"Plugin 'timofurrer/vim-bufferline'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'kien/ctrlp.vim'

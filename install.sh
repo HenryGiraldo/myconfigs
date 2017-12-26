@@ -1,15 +1,25 @@
 #!/bin/bash
 
 check_dependencies() {
-  DEPEND_FAIL=0
+  DEPEND_FAIL=
   echo "Dependencies:"
   for i in $@; do
     { type $i > /dev/null 2>&1 && echo "$i PASS"; } ||
-    {  echo "$i FAIL"; DEPEND_FAIL=1; }
+    { echo "$i FAIL"; DEPEND_FAIL="$DEPEND_FAIL $i"; }
   done
 
-  if [ $DEPEND_FAIL -eq 1 ]; then
-    exit -1
+  if [ ! -z "$DEPEND_FAIL" ]; then
+    echo "Do you want to install all missing dependencies? [Y/n]"
+    read want_install
+    if echo "$want_install" | grep -iq "^n"; then
+      exit -1
+    else
+      for i in $DEPEND_FAIL; do
+        echo "Installing... $i"
+        sudo pacman -S $i
+      done
+      exit -1
+    fi
   fi
 }
 
@@ -22,7 +32,7 @@ fmv() {
 }
 
 #libtinfo5 is needed for YCM
-DEPENDENCIES="tmux vim zsh ctags cmake cscope libtinfo5 xflux parcellite"
+DEPENDENCIES="tmux vim zsh ctags cmake cscope xflux parcellite docker guake"
 check_dependencies $DEPENDENCIES
 
 #change your default shell
