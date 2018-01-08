@@ -36,6 +36,7 @@ function dopen_bash()
 alias xmake='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/ecowrt:/root/toolchain" -it docker.aoifes.com/cross_compile'
 alias xmakenomad='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/nomad_ecowrt:/root/toolchain" -it docker.aoifes.com/cross_compile'
 alias xmakelede='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/lede_with_cht:/root/toolchain" -it docker.aoifes.com/cross_compile'
+alias xmakenmap='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/lede_nmap2:/root/toolchain" -it docker.aoifes.com/cross_compile'
 alias xgdb='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/ecowrt:/root/toolchain" -it docker.aoifes.com/cross_gdb'
 alias xgdblede='docker run --rm -v "$(pwd):/root/src" -v "/home/egiraldo/workspace/lede_with_cht:/root/toolchain" -it docker.aoifes.com/cross_gdb'
 #alias dmake='docker run -u 1000:1000 --rm --net="host" --cap-add NET_ADMIN -v "$(pwd):/root/src" -t docker.aoifes.com/compile_cht'
