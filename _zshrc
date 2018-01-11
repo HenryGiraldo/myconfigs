@@ -94,6 +94,9 @@ source $HOME/workspace/myconfigs/progress_bar.sh
 source $HOME/workspace/myconfigs/xcol.sh
 source $HOME/workspace/myconfigs/alias/common_alias
 source $HOME/workspace/myconfigs/alias/docker_alias
+if [[ -f $HOME/workspace/myconfigs/alias/galgus_alias ]]; then
+  source $HOME/workspace/myconfigs/alias/galgus_alias
+fi
 source $ZSH/oh-my-zsh.sh
 
 if [[ -n "$TMUX" ]]; then
