@@ -32,7 +32,7 @@ fmv() {
 }
 
 #libtinfo5 is needed for YCM
-DEPENDENCIES="tmux vim zsh ctags cmake cscope xflux parcellite docker guake"
+DEPENDENCIES="tmux vim zsh ctags cmake cscope xflux parcellite docker guake gdb"
 check_dependencies $DEPENDENCIES
 
 #change your default shell
@@ -55,6 +55,8 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 fmv _vimrc ~/.vimrc
 fmv _tmux.conf ~/.tmux.conf
 fmv _zshrc ~/.zshrc
+fmv _gdbinit ~/.gdbinit
+
 chmod +x sshh_script
 
 vim +PluginInstall +qall
