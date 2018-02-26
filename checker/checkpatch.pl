@@ -18,15 +18,21 @@ my $V = '0.32';
 
 use Getopt::Long qw(:config no_auto_abbrev);
 
+#FOR USE OUTSIDE THE KERNEL (Comment out if you will use in kernel)
+my $tree = 0;
+my $file = 1;
+
+#FOR USE INSIDE THE KERNEL
+#my $tree = 1;
+#my $file = 0;
+
 my $quiet = 0;
-my $tree = 1;
 my $chk_signoff = 1;
 my $chk_patch = 1;
 my $tst_only;
 my $emacs = 0;
 my $terse = 0;
 my $showfile = 0;
-my $file = 0;
 my $git = 0;
 my %git_commits = ();
 my $check = 0;
