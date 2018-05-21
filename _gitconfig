@@ -1,0 +1,18 @@
+[merge]
+	tool = meld
+[alias]
+	hist = log --graph --oneline --decorate --pretty=format:\"%h %ad | %s%d [%an]\" --date=short
+        fixup = "!f() { TARGET=$(git rev-parse "$1"); git commit --fixup=$TARGET ${@:2} && EDITOR=true git rebase -i --autostash --autosquash $TARGET^; }; f"
+[branch]
+	autosetuprebase = always
+[user]
+	email = enrique.giraldo@galgus.net
+	name = Enrique Giraldo
+[core]
+        editor = vim
+[color "diff"]
+        meta = yellow bold
+        frag = magenta bold
+        old = red bold
+        new = green bold
+        whitespace = red reverse
