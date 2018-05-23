@@ -53,6 +53,7 @@ fi
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 fmv _vimrc ~/.vimrc
+fmw _simple_vimrc ~/.simple_vimrc
 fmv _tmux.conf ~/.tmux.conf
 fmv _zshrc ~/.zshrc
 fmv _gdbinit ~/.gdbinit
