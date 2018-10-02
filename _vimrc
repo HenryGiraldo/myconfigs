@@ -293,6 +293,10 @@ if has('cscope')
   map g<C-\> :cs find 0 <C-R>=expand("<cword>")<CR><CR>
 endif
 
+" CSCOPE UPDATES
+" :!cscope -Rbq && :cs reset
+" map <F5> :!cscope -b<CR>:cs reset<CR><CR>
+
 " change window
 nnoremap <leader>1 1
 nnoremap <leader>2 2
@@ -361,7 +365,7 @@ imap <S-F8>    <ESC>:TlistUpdate<CR>
 " allow toggling between local and default mode
 function TabToggle()
   if &expandtab
-    set shiftwidth=8
+    set shiftwidth=4
     set softtabstop=0
     set noexpandtab
   else
