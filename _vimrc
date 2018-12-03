@@ -365,7 +365,7 @@ imap <S-F8>    <ESC>:TlistUpdate<CR>
 " allow toggling between local and default mode
 function TabToggle()
   if &expandtab
-    set shiftwidth=4
+    set shiftwidth=8
     set softtabstop=0
     set noexpandtab
   else
