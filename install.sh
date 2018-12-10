@@ -32,7 +32,7 @@ fmv() {
 }
 
 #libtinfo5 is needed for YCM
-DEPENDENCIES="tmux vim zsh ctags cmake cscope xflux parcellite docker guake gdb dialog wireshark-gtk meld"
+DEPENDENCIES="tmux vim zsh ctags cmake cscope xflux parcellite docker guake gdb dialog wireshark-gtk meld valgrind"
 check_dependencies $DEPENDENCIES
 
 #change your default shell
