@@ -23,6 +23,23 @@ check_dependencies() {
   fi
 }
 
+install_xflux() {
+  cd fluxgui
+  ./download-xflux.py
+
+  # EITHER install system wide
+  sudo ./setup.py install --record installed.txt
+
+  # EXCLUSIVE OR, install in your home directory
+  #
+  # The fluxgui program installs
+  # into ~/.local/bin, so be sure to add that to your PATH if installing
+  # locally. In particular, autostarting fluxgui in Gnome will not work
+  # if the locally installed fluxgui is not on your PATH.
+  ./setup.py install --user --record installed.txt
+  cd ..
+}
+
 fmv() {
   cp $2 $2.bk 2> /dev/null
   rm $2 2> /dev/null
@@ -32,8 +49,12 @@ fmv() {
 }
 
 #libtinfo5 is needed for YCM
-DEPENDENCIES="tmux vim zsh ctags cmake cscope xflux parcellite docker guake gdb dialog wireshark-gtk meld valgrind"
+DEPENDENCIES="git tmux vim zsh ctags cmake cscope parcellite docker guake gdb dialog wireshark-gtk meld valgrind"
 check_dependencies $DEPENDENCIES
+
+git submodule update --init --recursive
+
+type xflux > /dev/null 2>&1  || { echo "Installing xflux"; install_xflux; }
 
 #change your default shell
 if [ $SHELL != /bin/zsh ]; then
@@ -48,6 +69,7 @@ fi
 
 if [ -d ~/.vim/bundle/Vundle.vim ]; then
   rm -rf ~/.vim/bundle/Vundle.vim_old 2>/dev/null
+  echo "Copying your Vundle.vim in  ~/.vim/bundle/Vundle.vim_old"
   mv ~/.vim/bundle/Vundle.vim ~/.vim/bundle/Vundle.vim_old;
 fi
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
@@ -62,5 +84,4 @@ fmv tmux-resurrect/resurrect.tmux ~/.resurrect.tmux
 chmod +x sshh_script
 
 vim +PluginInstall +qall
-
 

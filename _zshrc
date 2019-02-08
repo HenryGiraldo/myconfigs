@@ -105,10 +105,5 @@ if [[ -n "$TMUX" ]]; then
 	bindkey "\e[4~" end-of-line
 fi
 
-XFLUX_PID=$(pidof xflux)
-if [ -z $XFLUX_PID ]; then
-  /usr/bin/xflux -k 3000 -l 37 -g -6
-fi
-
 # Export CCACHE
 export PATH="/usr/lib/ccache:$PATH"
