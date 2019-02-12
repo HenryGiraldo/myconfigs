@@ -89,6 +89,7 @@ if [[ ! -d $ZSH_CACHE_DIR ]]; then
 fi
 
 #IMPORTS!
+source $HOME/workspace/myconfigs/start_tmux.sh
 source $HOME/workspace/myconfigs/sshh_script
 source $HOME/workspace/myconfigs/progress_bar.sh
 source $HOME/workspace/myconfigs/mynotify.sh
