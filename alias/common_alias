@@ -134,3 +134,9 @@ alias cscope_update='cscope -q -R -b'
 
 ## Simple VIM
 alias svim='vim -u ~/.simple_vimrc'
+
+## Fix endlines
+alias fixendl='git config --global core.autocrlf true'
+
+## Hide CR
+alias hidecr='git config --global core.whitespace cr-at-eol'
