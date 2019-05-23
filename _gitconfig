@@ -6,10 +6,12 @@
 [branch]
 	autosetuprebase = always
 [user]
-	email = enrique.giraldo@galgus.net
+	email = hgiraldos@gmail.com
 	name = Enrique Giraldo
 [core]
         editor = vim
+	autocrlf = true
+	whitespace = cr-at-eol
 [color "diff"]
         meta = yellow bold
         frag = magenta bold
