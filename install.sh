@@ -1,30 +1,36 @@
 #!/bin/bash
 
+source alias/common_alias
+
+USER_HOME=$(eval echo ~${SUDO_USER})
+
 check_dependencies() {
+  sudo apt update
   DEPEND_FAIL=
   echo "Dependencies:"
-  for i in $@; do
-    { type $i > /dev/null 2>&1 && echo "$i PASS"; } ||
+  for i in "$@"; do
+    { type "$i" > /dev/null 2>&1 && echo "$i PASS"; } ||
     { echo "$i FAIL"; DEPEND_FAIL="$DEPEND_FAIL $i"; }
   done
 
-  if [ ! -z "$DEPEND_FAIL" ]; then
+  if [ -n "$DEPEND_FAIL" ]; then
     echo "Do you want to install all missing dependencies? [Y/n]"
-    read want_install
+    read -r want_install
     if echo "$want_install" | grep -iq "^n"; then
-      exit -1
+      exit 1
     else
       for i in $DEPEND_FAIL; do
         echo "Installing... $i"
-        sudo pacman -S $i
+        # sudo pacman -S $i
+        sudo apt install -y "$i"
       done
-      exit -1
+      #exit -1
     fi
   fi
 }
 
 install_xflux() {
-  cd fluxgui
+  cd fluxgui || exit 1
   ./download-xflux.py
 
   # EITHER install system wide
@@ -40,16 +46,27 @@ install_xflux() {
   cd ..
 }
 
-fmv() {
-  cp $2 $2.bk 2> /dev/null
-  rm $2 2> /dev/null
-  #SELECT COPY OF LN
-  ln -s $(realpath $1) $2
-  #  cp $1 $2
-}
-
+# TODO, get dependencies from a file
 #libtinfo5 is needed for YCM
-DEPENDENCIES="git tmux vim zsh ctags cmake cscope parcellite docker guake gdb dialog wireshark-gtk meld valgrind"
+# ARCH
+#DEPENDENCIES="git tmux vim zsh ctags cmake cscope parcellite docker guake gdb dialog wireshark-gtk meld valgrind sshpass shellcheck"
+# Debian
+DEPENDENCIES="git tmux vim zsh cmake cscope exuberant-ctags parcellite docker guake gdb dialog meld valgrind ca-certificates \
+  curl sshpass shellcheck tree \
+  gnupg \
+  lsb-release \
+  build-essential cmake vim-nox python3-dev mono-complete golang nodejs default-jdk npm \
+  docker-ce docker-ce-cli containerd.io ninja-build
+  "
+
+
+# if [ ! -d /usr/share/keyrings/docker-archive-keyring.gpg ]; then
+# 	curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+# fi
+#echo \
+#  'deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+#  $(lsb_release -cs) stable' | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
 check_dependencies $DEPENDENCIES
 
 git submodule update --init --recursive
@@ -57,15 +74,11 @@ git submodule update --init --recursive
 type xflux > /dev/null 2>&1  || { echo "Installing xflux"; install_xflux; }
 
 #change your default shell
-if [ $SHELL != /bin/zsh ]; then
+if [ "$SHELL" != /bin/zsh ]; then
   chsh -s /bin/zsh
 fi
 
-if [ ! -d /usr/share/oh-my-zsh ]; then
-  if [ -d ~/.oh-my-zsh ]; then mv ~/.oh-my-zsh ~/.oh-my-zsh_old; fi
-  git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
-  sudo cp -r ~/.oh-my-zsh /usr/share/oh-my-zsh
-fi
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 if [ -d ~/.vim/bundle/Vundle.vim ]; then
   rm -rf ~/.vim/bundle/Vundle.vim_old 2>/dev/null
@@ -84,4 +97,9 @@ fmv tmux-resurrect/resurrect.tmux ~/.resurrect.tmux
 chmod +x sshh_script
 
 vim +PluginInstall +qall
+
+# Be sure you have installed your python3.X-dev package
+
+cd ~/.vim/bundle/YouCompleteMe
+python3 install.py --all
 

@@ -43,6 +43,24 @@ function multi_replace()
 }
 
 
+function gen_cscope_database()
+{
+  find . -name "*.c" -o -name "*.cpp" -o -name "*.h" -o -name "*.hpp" > /tmp/cscope.files
+  cscope -i /tmp/cscope.files
+  CSCOPE_DB=cscope.out; export CSCOPE_DB
+}
+
+
+fmv() {
+  echo $2
+  cp $2 $2.bk 2> /dev/null
+  rm $2 2> /dev/null
+  #SELECT COPY OF LN
+  ln -s $(realpath $1) $2
+  #  cp $1 $2
+}
+
+
 #The first thing you’ll need to do is make sure you’ve run the keygen command to generate the keys:
 #ssh-keygen -t rsa
 #Then use this command to push the key to the remote server, modifying it to match your server name.

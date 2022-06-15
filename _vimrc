@@ -55,9 +55,6 @@ Plugin 'DoxygenToolkit.vim'
 "Plugin 'realtimeprojects/vim-radish'
 Plugin 'mattn/webapi-vim'
 Plugin 'mattn/gist-vim'
-" online compiler
-Plugin 'rhysd/wandbox-vim'
-Plugin 'suan/vim-instant-markdown'
 
 " mappings to improve moving etc
 Plugin 'Lokaltog/vim-easymotion'
@@ -221,8 +218,8 @@ if has('cscope')
   if filereadable("cscope.out")
     silent cs add cscope.out
   " else add database pointed to by environment
-  elseif $CSCOPE_DB != ""
-    silent cs add $CSCOPE_DB
+  "elseif $CSCOPE_DB != ""
+  "  silent cs add $CSCOPE_DB
   endif
 endif
 

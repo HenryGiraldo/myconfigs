@@ -22,11 +22,6 @@ function dumount()
   docker stop $1; docker rm $1
 }
 
-function dmount()
-{
-  docker run --privileged -v "$(pwd):/root/external" -v "$1"_data:/root/data -t -dP --net="host" --cap-add NET_ADMIN --name $1 docker.aoifes.com/$1
-}
-
 function dopen_bash()
 {
   docker exec -ti $1 script -q -c bash
