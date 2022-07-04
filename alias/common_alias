@@ -86,6 +86,7 @@ alias gc='git commit'
 alias gd='git diff'
 alias gk='git checkout'
 alias gitdraw="git log --graph --oneline --decorate"
+alias gamend='git add . -u; git commit --amend --no-edit'
 
 #cd alias
 alias ..='cd ..'
