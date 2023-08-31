@@ -60,6 +60,11 @@ fmv() {
   #  cp $1 $2
 }
 
+function cgrep()
+{
+  find . -name .repo -prune -o -name .git -prune -o -type f \( -name '*.c' -o -name '*.cc' -o -name '*.cpp' -o -name '*.h' \) -print0 | xargs -0 grep --color -n "$@"
+}
+
 
 #The first thing you’ll need to do is make sure you’ve run the keygen command to generate the keys:
 #ssh-keygen -t rsa
