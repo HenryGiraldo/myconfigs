@@ -164,3 +164,6 @@ alias fixendl='git config --global core.autocrlf true'
 
 ## Hide CR
 alias hidecr='git config --global core.whitespace cr-at-eol'
+
+## Diff avoiding binaries
+alias diff_src='diff -urN --exclude="*.bin" --exclude="*.o" --exclude="*.so"'
